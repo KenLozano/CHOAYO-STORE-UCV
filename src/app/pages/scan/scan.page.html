@@ -4,7 +4,7 @@
 
   <div class="scanner-header">
 
-    <button class="header-btn" routerLink="/tabs/home">
+    <button class="header-btn" (click)="cerrarYVolver()">
       <ion-icon name="close-outline"></ion-icon>
     </button>
 
@@ -13,8 +13,9 @@
       <h2>Escanear QR</h2>
     </div>
 
-    <button class="header-btn">
-      <ion-icon name="flash-outline"></ion-icon>
+    <!-- Conectado al toggle de linterna -->
+    <button class="header-btn" (click)="toggleFlash()">
+      <ion-icon [name]="isFlashOn ? 'flash' : 'flash-outline'"></ion-icon>
     </button>
 
   </div>
@@ -30,11 +31,15 @@
         <div class="corner bottom-left"></div>
         <div class="corner bottom-right"></div>
 
-        <div class="qr-placeholder">
+        <!-- Contenedor donde se monta el video de la cámara -->
+        <div id="qr-reader"></div>
+
+        <!-- Solo visible si la cámara aún no enciende o falló -->
+        <div class="qr-placeholder" *ngIf="!isScanning">
           <ion-icon name="qr-code-outline"></ion-icon>
         </div>
 
-        <div class="laser"></div>
+        <div class="laser" *ngIf="isScanning"></div>
 
       </div>
 

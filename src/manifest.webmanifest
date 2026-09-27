@@ -1,0 +1,17 @@
+﻿{
+  "name": "ChoayoApp - Club de Fidelización",
+  "short_name": "ChoayoApp",
+  "theme_color": "#5b4efc",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/icon/favicon.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
