@@ -115,6 +115,24 @@ export class SupabaseService {
     return data;
   }
 
+  // En tu SupabaseService
+async loginConGoogle() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      // Redirige al home de la app tras iniciar sesión
+      redirectTo: `${window.location.origin}/tabs/home`,
+    },
+  });
+
+  if (error) {
+    console.error('Error al iniciar sesión con Google:', error.message);
+    throw error;
+  }
+
+  return data;
+}
+
   // Cerrar sesión
   async logout() {
     const { error } = await supabase.auth.signOut();

@@ -21,6 +21,18 @@
         <input [type]="passwordType" placeholder="Contraseña" [(ngModel)]="password">
         <ion-icon [name]="passwordIcon" class="eye-icon" (click)="togglePasswordMode()"></ion-icon>
       </div>
+
+      <!-- Separador visual -->
+<div class="auth-divider">
+  <span>o continúa con</span>
+</div>
+
+<!-- Botón de inicio con Google -->
+<button class="google-btn" type="button" (click)="iniciarConGoogle()">
+  <ion-icon name="logo-google"></ion-icon>
+  <span>Continuar con Google</span>
+</button>
+
       <!-- Mensaje de error -->
       <p class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</p>
       <div class="options">

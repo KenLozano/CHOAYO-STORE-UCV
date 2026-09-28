@@ -4,7 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonIcon, IonCheckbox } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline } from 'ionicons/icons';
+import {
+  logoGoogle,
+  mailOutline,
+  lockClosedOutline,
+  eyeOutline,
+  eyeOffOutline
+} from 'ionicons/icons';
 import { SupabaseService } from '../../services/supabase.service';
 
 @Component({
@@ -35,10 +41,26 @@ export class LoginPage implements OnInit {
     private router: Router,
     private supabaseService: SupabaseService
   ) {
-    addIcons({ mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline });
+    // Un solo registro con todos los íconos necesarios
+    addIcons({
+      logoGoogle,
+      mailOutline,
+      lockClosedOutline,
+      eyeOutline,
+      eyeOffOutline
+    });
   }
 
   ngOnInit() { }
+
+  // --- Login con Google ---
+  async iniciarConGoogle() {
+    try {
+      await this.supabaseService.loginConGoogle();
+    } catch (error) {
+      console.error('No se pudo completar el login con Google', error);
+    }
+  }
 
   togglePasswordMode() {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';

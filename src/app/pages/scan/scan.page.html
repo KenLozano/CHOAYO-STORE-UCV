@@ -2,8 +2,8 @@
 
   <div class="scanner-overlay"></div>
 
+  <!-- Cabecera -->
   <div class="scanner-header">
-
     <button class="header-btn" (click)="cerrarYVolver()">
       <ion-icon name="close-outline"></ion-icon>
     </button>
@@ -13,99 +13,130 @@
       <h2>Escanear QR</h2>
     </div>
 
-    <!-- Conectado al toggle de linterna -->
     <button class="header-btn" (click)="toggleFlash()">
       <ion-icon [name]="isFlashOn ? 'flash' : 'flash-outline'"></ion-icon>
     </button>
-
   </div>
 
+  <!-- Contenedor Principal -->
   <div class="scanner-container">
 
     <div class="scanner-card">
-
       <div class="scan-frame">
+        <!-- Visor del video inyectado -->
+        <div id="qr-reader"></div>
 
+        <!-- Placeholder visible si aún no carga el video -->
+        <div class="qr-placeholder" *ngIf="!isScanning">
+          <ion-icon name="qr-code-outline"></ion-icon>
+        </div>
+
+        <!-- Esquinas amarillas de encuadre -->
         <div class="corner top-left"></div>
         <div class="corner top-right"></div>
         <div class="corner bottom-left"></div>
         <div class="corner bottom-right"></div>
 
-        <!-- Contenedor donde se monta el video de la cámara -->
-        <div id="qr-reader"></div>
-
-        <!-- Solo visible si la cámara aún no enciende o falló -->
-        <div class="qr-placeholder" *ngIf="!isScanning">
-          <ion-icon name="qr-code-outline"></ion-icon>
-        </div>
-
+        <!-- Rayo láser animado -->
         <div class="laser" *ngIf="isScanning"></div>
-
       </div>
 
       <h3>Escanea tu boleta</h3>
-
       <p>
         Centra el código QR dentro del recuadro para registrar tu compra
         y ganar puntos automáticamente.
       </p>
 
+      <!-- Botón de apertura de modal manual -->
+      <button class="manual-code-link" (click)="abrirModalManual()">
+        <ion-icon name="keypad-outline"></ion-icon>
+        <span>¿No puedes escanear? Ingresa código manual</span>
+      </button>
     </div>
 
+    <!-- Tarjeta de consejo -->
     <div class="tip-card">
-
       <div class="tip-icon">
         <ion-icon name="bulb-outline"></ion-icon>
       </div>
-
       <div>
         <h4>Consejo rápido</h4>
         <p>Mantén el QR bien iluminado y evita mover la cámara.</p>
       </div>
-
     </div>
 
   </div>
 
+  <!-- Botón inferior fijo para simular -->
   <div class="scanner-footer">
-
     <button class="manual-btn" (click)="simularEscaneo()">
       <ion-icon name="scan-outline"></ion-icon>
       Simular escaneo de compra
     </button>
-
   </div>
 
+  <!-- 1. Modal para Ingreso Manual (Diseño integrado) -->
+  <ion-modal
+    [isOpen]="isManualModalOpen"
+    (didDismiss)="cerrarModalManual()"
+    class="custom-modal"
+  >
+    <ng-template>
+      <div class="modal-wrapper">
+        <div class="modal-body">
+          <div class="icon-circle manual-color">
+            <ion-icon name="receipt-outline"></ion-icon>
+          </div>
+
+          <h2>Ingreso Manual</h2>
+          <p>Digita el código que figura al pie de tu comprobante de pago.</p>
+
+          <div class="modal-input-box">
+            <ion-icon name="barcode-outline"></ion-icon>
+            <input
+              type="text"
+              [(ngModel)]="codigoManual"
+              placeholder="Ej: BOL-2026-001"
+              maxlength="25"
+              (keyup.enter)="canjearCodigoManual()"
+            />
+          </div>
+
+          <div class="modal-actions">
+            <button class="modal-btn" (click)="canjearCodigoManual()">
+              Canjear Puntos
+            </button>
+            <button class="modal-btn-cancel" (click)="cerrarModalManual()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- 2. Modal de éxito (Código validado) -->
   <ion-modal
     [isOpen]="isModalOpen"
     (didDismiss)="cerrarYVolver()"
     class="custom-modal"
   >
     <ng-template>
-
       <div class="modal-wrapper">
-
         <div class="modal-body">
-
           <div class="icon-circle success-color">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
           </div>
-
           <h2>¡Código validado!</h2>
-
           <p>
             Se han añadido <b>{{ puntosGanados }} pts</b>
-            a tu cuenta por tu última compra.
+            a tu cuenta por tu compra.
           </p>
-
           <button class="modal-btn" (click)="cerrarYVolver()">
             Ir al Inicio
           </button>
-
         </div>
-
       </div>
-
     </ng-template>
   </ion-modal>
 

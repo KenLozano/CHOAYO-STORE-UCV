@@ -186,6 +186,25 @@ procesarCanje(nombreItem: string, costo: number) {
     }
   ];
 
+  // Al entrar a Home:
+async verificarPerfil() {
+  const user = await this.supabaseService.getUsuarioActual();
+  if (!user) return;
+
+  const perfil = await this.supabaseService.getPerfilUsuario(user.id);
+  
+  // Si no tiene perfil aún (primer login con Google):
+  if (!perfil) {
+    await this.supabaseService.insertar('usuarios', {
+      id: user.id,
+      nombre: user.user_metadata?.['full_name'] || 'Usuario Choayo',
+      email: user.email,
+      puntos_totales: 250, // Bono de bienvenida
+      rol: 'cliente'
+    });
+  }
+}
+
   abrirNotificaciones() {
     this.isNotifModalOpen = true;
   }
