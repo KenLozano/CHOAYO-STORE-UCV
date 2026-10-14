@@ -50,10 +50,10 @@
                   "maximumError": "5mb"
                 },
                 {
-  "type": "anyComponentStyle",
-  "maximumWarning": "8kb",
-  "maximumError": "10kb"
-}
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "8kb",
+                  "maximumError": "10kb"
+                }
               ],
               "fileReplacements": [
                 {
@@ -69,8 +69,7 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            },
-            
+            }
           },
           "defaultConfiguration": "production"
         },
@@ -82,8 +81,7 @@
             },
             "development": {
               "buildTarget": "app:build:development"
-            },
-            
+            }
           },
           "defaultConfiguration": "development"
         },
@@ -110,8 +108,7 @@
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": []
-          },
-        
+          }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
