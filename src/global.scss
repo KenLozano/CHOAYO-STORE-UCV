@@ -33,8 +33,8 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+ @import "@ionic/angular/css/palettes/dark.class.css"; 
+//@import '@ionic/angular/css/palettes/dark.system.css';
 /* ANIMACIONES GENERALES DE LA APP */
 
 ion-content {
@@ -95,4 +95,157 @@ ion-tab-button:hover {
 
 ion-tab-button.tab-selected {
   transform: scale(1.08);
+}
+
+/* ===================================================
+   MODO OSCURO PERSONALIZADO (Activado por body.dark)
+   =================================================== */
+body.dark {
+  /* Colores base */
+  --ion-background-color: #121212 !important;
+  --ion-text-color: #ffffff !important;
+  
+  /* FORZAR FONDO OSCURO EN EL CONTENEDOR PRINCIPAL DE TODAS LAS PANTALLAS */
+  ion-content, .home-bg, .perfil-bg {
+    --background: #121212 !important;
+    background: #121212 !important;
+  }
+
+  /* BARRA INFERIOR DE NAVEGACIÓN (Sea donde sea que esté) */
+  ion-tab-bar, .custom-tab-bar {
+    --background: #1e1e1e !important;
+    background: #1e1e1e !important;
+    border-top: 1px solid #333 !important;
+  }
+  ion-tab-button {
+    --color: #888888 !important;
+  }
+  ion-tab-button.tab-selected {
+    --color: #6C63FF !important;
+  }
+
+  /* 
+   * TARJETAS, MODALES Y BUSCADORES (Genérico + Específico) 
+   * Esto forzará el fondo oscuro en los bloques blancos del Historial y Recompensas
+   */
+  .points-card, .menu-item, .promo-card, .avatar-box, 
+  .custom-modal .modal-wrapper, .notif-wrapper, .notification-panel,
+  ion-card, ion-item, .searchbar-input-container, .searchbar-input,
+  [class*="-card"], [class*="-item"] /* Comodín: ataca cualquier clase que termine en -card o -item */
+  {
+    background: #1e1e1e !important;
+    --background: #1e1e1e !important;
+    border-color: #333 !important;
+    color: #ffffff !important;
+  }
+
+  /* Textos globales */
+  h1, h2, h3, h4, p, span, ion-label {
+    color: #ffffff !important;
+  }
+
+  /* Textos secundarios */
+  input::placeholder, .searchbar-input::placeholder {
+    color: #aaaaaa !important;
+  }
+
+  /* Inputs (Perfil, Login) */
+  .password-group, input, ion-input {
+    background: #2a2a2a !important;
+    --background: #2a2a2a !important;
+    border-color: #444 !important;
+    color: #ffffff !important;
+    --color: #ffffff !important;
+  }
+  /* --- REPARACIÓN DE BUSCADORES EN MODO OSCURO --- */
+  ion-searchbar {
+    background: transparent !important; /* Elimina el rectángulo blanco exterior */
+    --background: #1e1e1e !important;   /* Fondo oscuro del input interior */
+    --color: #ffffff !important;
+    --placeholder-color: #aaaaaa !important;
+    --icon-color: #aaaaaa !important;
+    --clear-button-color: #aaaaaa !important;
+    --box-shadow: none !important;
+  }
+
+  /* Si usas un input normal para el buscador en lugar de ion-searchbar: */
+  .search-container, .searchbar-input-container {
+    background: transparent !important;
+    border: none !important;
+  }
+  .search-input {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+  }
+
+  /* --- REPARACIÓN DEL MODAL DE FILTROS --- */
+  /* Ionic crea los modales fuera del ion-content, hay que atacarlos globalmente */
+  ion-modal {
+    --background: #1e1e1e !important;
+  }
+  ion-modal::part(content) {
+    background: #1e1e1e !important;
+  }
+  .filter-option, .modal-list-item {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid #333 !important;
+  }
+  /* Estilos para las opciones dentro de tu modal (Más reciente, etc) */
+ .filter-pill, .pill-btn, .category-btn, ion-chip {
+    background: #2a2a2a !important;
+    --background: #2a2a2a !important;
+    color: #cccccc !important;
+    --color: #cccccc !important;
+    border: 1px solid #333 !important;
+  }
+  .filter-pill.active, .pill-btn.active, .category-btn.active, ion-chip.active, ion-chip.chip-checked {
+    background: #6c63ff !important;
+    --background: #6c63ff !important;
+    color: white !important;
+    --color: white !important;
+    border-color: #6c63ff !important;
+  }
+}
+
+/* ===================================================
+   DISEÑO DEL BOTÓN ESCÁNER FLOTANTE (TABS)
+   =================================================== */
+ion-tab-bar.custom-tab-bar {
+  border-top: none;
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.06);
+  height: 65px; 
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow: visible !important;
+  contain: none !important;
+}
+
+.scan-tab-btn {
+  overflow: visible !important;
+  max-width: 80px;
+
+  .scan-circle {
+    width: 60px;
+    height: 60px;
+    background: #6C63FF; 
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -35px; /* FLOTA HACIA ARRIBA */
+    border: 6px solid var(--ion-background-color, #ffffff);
+    box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+    transition: transform 0.2s ease;
+
+    ion-icon {
+      font-size: 32px;
+      color: white;
+      margin: 0;
+    }
+  }
+
+  &:active .scan-circle {
+    transform: scale(0.92);
+  }
 }

@@ -212,6 +212,22 @@
   }
 }
 
+.recordar-item {
+  --background: transparent;
+  font-size: 0.9rem;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  
+  ion-checkbox {
+    --size: 20px;
+    margin-right: 10px;
+  }
+  
+  ion-label {
+    color: var(--ion-color-medium);
+  }
+}
+
 .google-btn {
   width: 100%;
   height: 48px;

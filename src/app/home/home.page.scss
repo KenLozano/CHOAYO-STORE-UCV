@@ -3,7 +3,7 @@
 }
 
 .hero-section {
-  padding: 24px 20px 35px;
+  padding: calc(24px + env(safe-area-inset-top)) 20px 35px;
   background: linear-gradient(135deg, #6c63ff 0%, #5249e5 100%);
   border-radius: 0 0 38px 38px;
   color: white;
@@ -14,7 +14,79 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 22px;
+  width: 100%;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .avatar-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid rgba(255,255,255,0.4);
+    flex-shrink: 0; /* Evita que el avatar se aplaste */
+
+    span {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+
+  .greeting-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    p { 
+      margin: 0 0 2px 0; 
+      font-size: 13px;
+      opacity: 0.8;
+      font-weight: 600;
+    }
+    h2 { 
+      margin: 0; 
+      font-size: 22px; /* Reduje un poco el tamaño para que encaje mejor */
+      font-weight: 900;
+    }
+  }
+}
+.hero-section {
+  /* Sumamos el espacio del Notch (safe-area) al padding superior */
+  padding: calc(20px + env(safe-area-inset-top)) 20px 35px;
+  background: linear-gradient(135deg, #6c63ff 0%, #5249e5 100%);
+  border-radius: 0 0 38px 38px;
+  color: white;
+  box-shadow: 0 14px 35px rgba(108, 99, 255, 0.25);
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+
+  .action-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    ion-icon {
+      color: white;
+      font-size: 1.2rem;
+    }
+  }
+}
 
   .small-text {
     margin: 0 0 4px;
@@ -28,7 +100,7 @@
     font-size: 26px;
     font-weight: 900;
   }
-}
+
 
 .notification-circle {
   width: 46px;

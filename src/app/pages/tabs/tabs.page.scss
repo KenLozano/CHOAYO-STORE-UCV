@@ -1,0 +1,34 @@
+/* Oculta el fondo nativo de la barra */
+ion-tab-bar.custom-tab-bar {
+  border-top: none;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+}
+
+/* Estilos para el botón central flotante */
+.scan-button-wrapper {
+  overflow: visible !important;
+  
+  .scan-circle {
+    background: var(--ion-color-primary);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -24px; /* Hace que flote hacia arriba */
+    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.4);
+    border: 4px solid var(--ion-background-color, #fff);
+    
+    ion-icon {
+      color: white;
+      font-size: 28px;
+      margin: 0;
+    }
+  }
+
+  ion-label {
+    margin-top: 4px;
+    font-weight: 600;
+  }
+}

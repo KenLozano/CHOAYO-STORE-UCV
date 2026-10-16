@@ -158,48 +158,48 @@ export class ScanPage implements OnDestroy {
     await this.procesarTransaccion(ticketLimpio, 150);
   }
 
-  // Transacción segura en Supabase
+
+// Transacción segura en Supabase usando RPC
   private async procesarTransaccion(ticketId: string, puntos: number) {
     try {
       const userAuth = await this.supabaseService.getUsuarioActual();
       if (!userAuth) return;
 
-      const perfil = await this.supabaseService.getPerfilUsuario(userAuth.id);
-      if (!perfil) return;
-
-      // Inserción con UNIQUE constraint en ticket_id
-      await this.supabaseService.insertar('historico_puntos', {
-        usuario_id: userAuth.id,
-        tipo: 'ganado',
-        puntos: puntos,
-        descripcion: `Compra boleta: ${ticketId}`,
-        ticket_id: ticketId
+      // 1. Llamamos a la función segura en la base de datos
+      // NOTA: Dependiendo de cómo armaste tu SupabaseService, 
+      // esto podría ser this.supabaseService.supabase.rpc(...) 
+      // o this.supabaseService.client.rpc(...)
+      const { data, error } = await this.supabaseService.ejecutarRPC('procesar_escaneo_seguro', {
+        p_usuario_id: userAuth.id,
+        p_ticket_id: ticketId,
+        p_puntos_ganados: puntos,
+        p_descripcion: `Compra boleta: ${ticketId}`
       });
 
-      // Sumar al total
-      const nuevosPuntos = (perfil.puntos_totales || 0) + puntos;
-      await this.supabaseService.actualizar('usuarios', userAuth.id, {
-        puntos_totales: nuevosPuntos
-      });
+      // 2. Si hay un error grave de red o la base de datos está caída
+      if (error) throw error;
 
+      // 3. Validamos la respuesta lógica de nuestro RPC
+      if (data.success === false) {
+        // Esto captura el error de boleta duplicada o cualquier otro rechazo
+        await this.mostrarAlerta('Aviso', data.mensaje);
+        this.isProcessing = false;
+        this.iniciarCamara();
+        return;
+      }
+
+      // 4. Si todo salió perfecto (success: true)
       this.puntosGanados = puntos;
       this.isModalOpen = true;
 
     } catch (error: any) {
       console.error('Error al registrar puntos:', error);
-
-      if (error?.code === '23505' || error?.message?.includes('duplicate key')) {
-        await this.mostrarAlerta(
-          'Código ya canjeado',
-          `La boleta "${ticketId}" ya fue registrada previamente.`
-        );
-      } else {
-        await this.mostrarAlerta(
-          'Error de canje',
-          'No se pudo validar el código. Verifica e intenta nuevamente.'
-        );
-      }
-
+      
+      await this.mostrarAlerta(
+        'Error de red',
+        'No se pudo procesar el código. Verifica tu conexión e intenta de nuevo.'
+      );
+      
       this.isProcessing = false;
       this.iniciarCamara();
     }

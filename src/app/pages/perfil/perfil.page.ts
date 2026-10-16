@@ -26,7 +26,9 @@ import {
   eyeOffOutline,
   lockClosedOutline,
   checkmarkCircleOutline,
-  closeCircleOutline
+  closeCircleOutline,
+  moon, // AGREGADO PARA MODO OSCURO
+  sunny // AGREGADO PARA MODO CLARO
 } from 'ionicons/icons';
 
 import { SupabaseService } from '../../services/supabase.service';
@@ -69,6 +71,8 @@ export class PerfilPage implements OnInit {
   confirmarPassword = '';
   mensajePassword = '';
 
+  esModoOscuro = false; // VARIABLE PARA MODO OSCURO
+
   alertas = {
     productos: true,
     promociones: true,
@@ -108,13 +112,16 @@ export class PerfilPage implements OnInit {
       eyeOffOutline,
       lockClosedOutline,
       checkmarkCircleOutline,
-      closeCircleOutline
+      closeCircleOutline,
+      moon, // REGISTRADO
+      sunny // REGISTRADO
     });
   }
 
   ngOnInit() {
     this.cargarPerfil();
     this.avatarSeleccionado = localStorage.getItem('avatarSeleccionado');
+    this.comprobarTema(); // VERIFICA EL TEMA AL INICIAR
 
     const prefsGuardadas = localStorage.getItem('alertasChoayo');
 
@@ -126,7 +133,36 @@ export class PerfilPage implements OnInit {
   ionViewWillEnter() {
     this.cargarPerfil();
     this.avatarSeleccionado = localStorage.getItem('avatarSeleccionado');
+    this.comprobarTema(); // VERIFICA EL TEMA AL ENTRAR A LA VISTA
   }
+
+  // --- LÓGICA DE TEMA CLARO / OSCURO ---
+  comprobarTema() {
+    const temaGuardado = localStorage.getItem('choayo_tema');
+    if (temaGuardado === 'dark') {
+      this.esModoOscuro = true;
+      document.body.classList.add('dark');
+    } else if (temaGuardado === 'light') {
+      this.esModoOscuro = false;
+      document.body.classList.remove('dark');
+    } else {
+      const prefiereOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      this.esModoOscuro = prefiereOscuro;
+      if (prefiereOscuro) document.body.classList.add('dark');
+    }
+  }
+
+  toggleTema() {
+    this.esModoOscuro = !this.esModoOscuro;
+    if (this.esModoOscuro) {
+      document.body.classList.add('dark');
+      localStorage.setItem('choayo_tema', 'dark');
+    } else {
+      document.body.classList.remove('dark');
+      localStorage.setItem('choayo_tema', 'light');
+    }
+  }
+  // -------------------------------------
 
   get passwordTieneMinimo(): boolean {
     return this.nuevaPassword.length >= 8;

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonContent, IonIcon, IonButton, IonModal } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { notificationsOutline, star, cafeOutline, bagOutline, ticketOutline, giftOutline, checkmarkCircleOutline, alertCircleOutline } from 'ionicons/icons';
+import { notificationsOutline, star, cafeOutline, bagOutline, ticketOutline, giftOutline, checkmarkCircleOutline, alertCircleOutline, settingsOutline } from 'ionicons/icons';
 import { SupabaseService } from '../services/supabase.service';
 import { supabase } from '../../environments/supabase.config';
 
@@ -87,7 +87,7 @@ export class HomePage implements OnInit {
     private supabaseService: SupabaseService,
     private router: Router
   ) {
-    addIcons({ notificationsOutline, star, cafeOutline, bagOutline, ticketOutline, giftOutline, checkmarkCircleOutline, alertCircleOutline });
+    addIcons({notificationsOutline,settingsOutline,star,giftOutline,cafeOutline,bagOutline,ticketOutline,checkmarkCircleOutline,alertCircleOutline});
   }
 
   ngOnInit() {

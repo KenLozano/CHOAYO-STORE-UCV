@@ -63,6 +63,15 @@ export class SupabaseService {
     return data;
   }
 
+  // Ejecutar una función segura (RPC) en la base de datos
+  async ejecutarRPC(nombreFuncion: string, parametros: any) {
+    const { data, error } = await supabase.rpc(nombreFuncion, parametros);
+    if (error) {
+      console.error(`Error en RPC ${nombreFuncion}:`, error);
+    }
+    return { data, error };
+  }
+
   // ─── AUTENTICACIÓN ───────────────────────────────────────
 
   // Registrar nuevo usuario

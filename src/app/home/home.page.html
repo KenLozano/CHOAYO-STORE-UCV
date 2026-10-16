@@ -2,14 +2,33 @@
 
   <div class="hero-section">
     <div class="top-bar">
-      <div>
-        <p class="small-text">Bienvenido de nuevo</p>
-        <h2>Hola {{ usuario?.nombre?.split(' ')[0] || 'Usuario' }} 👋</h2>
+      <!-- AVATAR Y SALUDO -->
+      <div class="user-info" routerLink="/editar-perfil" style="cursor: pointer;">
+        <div class="avatar-circle">
+          <span>{{ (usuario?.nombre?.charAt(0) || 'U') | uppercase }}</span>
+        </div>
+        <div class="greeting-text">
+          <p class="small-text">Bienvenido de nuevo</p>
+          <h2>Hola {{ usuario?.nombre?.split(' ')[0] || 'Usuario' }} 👋</h2>
+        </div>
       </div>
 
-      <div class="notification-circle" (click)="abrirNotificaciones()">
-  <ion-icon name="notifications-outline"></ion-icon>
-</div>
+      <!-- ICONOS DE LA DERECHA -->
+      <div class="header-actions">
+        <!-- Ícono Modo Oscuro (Opcional, lo programaremos luego) -->
+        <!-- <div class="action-circle">
+          <ion-icon name="moon-outline"></ion-icon>
+        </div> -->
+        
+        <div class="action-circle" (click)="abrirNotificaciones()">
+          <ion-icon name="notifications-outline"></ion-icon>
+        </div>
+        
+        <!-- Este botón de ajustes reemplazará tu antigua pestaña Perfil -->
+        <div class="action-circle" routerLink="/editar-perfil">
+          <ion-icon name="settings-outline"></ion-icon>
+        </div>
+      </div>
     </div>
 
     <div class="points-card">

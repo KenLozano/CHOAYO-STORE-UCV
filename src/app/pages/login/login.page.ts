@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonIcon, IonCheckbox } from '@ionic/angular/standalone';
+import { IonContent, IonIcon, IonCheckbox, IonItem, IonLabel } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import {
@@ -18,8 +18,9 @@ import { SupabaseService } from '../../services/supabase.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonIcon, IonCheckbox, CommonModule, RouterModule, FormsModule]
-})
+ imports: [IonContent, IonIcon, IonCheckbox, IonItem, IonLabel, CommonModule, RouterModule, FormsModule
+  
+ ]})
 export class LoginPage implements OnInit {
 
   passwordType: string = 'password';
@@ -29,6 +30,8 @@ export class LoginPage implements OnInit {
   password: string = '';
   errorMsg: string = '';
   cargando: boolean = false;
+
+  recordarEmail = false; 
 
   // --- Recuperar contraseña ---
   mostrarModalRecuperar: boolean = false;
@@ -51,7 +54,13 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    const correoGuardado = localStorage.getItem('choayo_email_recordado');
+    if (correoGuardado) {
+      this.email = correoGuardado;
+      this.recordarEmail = true; // Marcamos el check automáticamente
+    }
+  }
 
   // --- Login con Google ---
   async iniciarConGoogle() {
@@ -67,7 +76,7 @@ export class LoginPage implements OnInit {
     this.passwordIcon = this.passwordIcon === 'eye-outline' ? 'eye-off-outline' : 'eye-outline';
   }
 
-  async ingresar() {
+async ingresar() {
     this.errorMsg = '';
 
     // Validación básica
@@ -81,6 +90,14 @@ export class LoginPage implements OnInit {
     this.cargando = false;
 
     if (resultado) {
+     
+      if (this.recordarEmail) {
+        localStorage.setItem('choayo_email_recordado', this.email);
+      } else {
+        localStorage.removeItem('choayo_email_recordado');
+      }
+      // --------------------------------
+      
       this.router.navigate(['/tabs/home']);
     } else {
       this.errorMsg = 'Correo o contraseña incorrectos.';

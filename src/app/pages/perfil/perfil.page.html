@@ -1,6 +1,7 @@
 <ion-content class="perfil-bg">
 
-  <div class="profile-hero">
+  <!-- SE AGREGA EL ENV(SAFE-AREA-INSET-TOP) AQUÍ PARA EL NOTCH -->
+  <div class="profile-hero" style="padding-top: calc(45px + env(safe-area-inset-top));">
 
     <div class="top-decoration"></div>
 
@@ -256,11 +257,29 @@
     </div>
 
     <div class="section-label">
-      <p>Configuración</p>
-      <h3>Mi cuenta</h3>
+      <p>Ajustes generales</p>
+      <h3>Opciones de la App</h3>
     </div>
 
     <div class="options-menu">
+
+      <!-- ============================================== -->
+      <!-- NUEVO BOTÓN: MODO CLARO / OSCURO AQUÍ -->
+      <!-- ============================================== -->
+      <div class="menu-item" (click)="toggleTema()" style="cursor: pointer;">
+        
+        <div class="item-icon" [ngClass]="esModoOscuro ? 'purple' : 'orange'">
+          <ion-icon [name]="esModoOscuro ? 'moon' : 'sunny'"></ion-icon>
+        </div>
+
+        <div class="item-text">
+          <h4>Apariencia</h4>
+          <p>{{ esModoOscuro ? 'Modo Oscuro' : 'Modo Claro' }}</p>
+        </div>
+
+        <ion-toggle [checked]="esModoOscuro" mode="md"></ion-toggle>
+      </div>
+      <!-- ============================================== -->
 
       <a class="menu-item" routerLink="/editar-perfil">
 

@@ -11,6 +11,7 @@
       <h2>Bienvenido</h2>
       <p>Inicia sesión para continuar</p>
     </div>
+
     <div class="form-container">
       <div class="input-group">
         <ion-icon name="mail-outline"></ion-icon>
@@ -22,29 +23,35 @@
         <ion-icon [name]="passwordIcon" class="eye-icon" (click)="togglePasswordMode()"></ion-icon>
       </div>
 
-      <!-- Separador visual -->
-<div class="auth-divider">
-  <span>o continúa con</span>
-</div>
-
-<!-- Botón de inicio con Google -->
-<button class="google-btn" type="button" (click)="iniciarConGoogle()">
-  <ion-icon name="logo-google"></ion-icon>
-  <span>Continuar con Google</span>
-</button>
-
-      <!-- Mensaje de error -->
+      <!-- Mensaje de error (Movido aquí arriba para que se vea antes de los botones) -->
       <p class="error-msg" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+      <!-- SECCIÓN RECORDARME UNIFICADA Y CORREGIDA -->
       <div class="options">
         <div class="remember">
-          <ion-checkbox mode="md"></ion-checkbox>
-          <label>Recordarme</label>
+          <!-- Solo usamos un ion-checkbox aquí, conectado a tu variable -->
+          <ion-checkbox mode="md" [(ngModel)]="recordarEmail"></ion-checkbox>
+          <label>Recordar correo</label>
         </div>
         <a href="javascript:void(0)" class="forgot-pwd" (click)="abrirModalRecuperar()">¿Olvidaste tu contraseña?</a>
       </div>
+
+      <!-- Botón de Iniciar Sesión -->
       <button class="main-btn" (click)="ingresar()" [disabled]="cargando">
         {{ cargando ? 'Iniciando...' : 'Iniciar sesión' }}
       </button>
+
+      <!-- Separador visual -->
+      <div class="auth-divider">
+        <span>o continúa con</span>
+      </div>
+
+      <!-- Botón de inicio con Google -->
+      <button class="google-btn" type="button" (click)="iniciarConGoogle()">
+        <ion-icon name="logo-google"></ion-icon>
+        <span>Continuar con Google</span>
+      </button>
+
       <div class="footer">
         <p>¿No tienes cuenta? <a routerLink="/register">Crear cuenta</a></p>
       </div>
